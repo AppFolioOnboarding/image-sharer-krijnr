@@ -6,6 +6,6 @@ class ApplicationControllerTest < ActionDispatch::IntegrationTest
 
   test 'should get index' do
     get root_path
-    assert_select 'blink'
+    assert_select 'a'
   end
 end
