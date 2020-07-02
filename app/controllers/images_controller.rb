@@ -16,6 +16,10 @@ class ImagesController < ApplicationController
     @image = Image.new # instance variable gets passed to template
   end
 
+  def index
+    @images = Image.all.order('created_at DESC')
+  end
+
   private
 
   def image_params
