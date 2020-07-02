@@ -29,4 +29,29 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select 'h1', 'New Image'
   end
+
+  test 'should list all images' do
+    Image.create! path: 'https://www.demo.com/image3.jpg'
+    get images_url
+    assert_response :success
+    assert_select '.js-image-list' do
+      assert_select 'img', Image.count
+    end
+  end
+
+  test 'images are sorted descending' do
+    Image.create! path: 'https://www.demo.com/image0.jpg'
+    Image.create! path: 'https://www.demo.com/image1.jpg'
+    Image.create! path: 'https://www.demo.com/image2.jpg'
+
+    get images_url
+
+    assert_select '.js-image-list' do
+      assert_select 'img' do |images|
+        assert images[0].to_s.include? 'https://www.demo.com/image2.jpg'
+        assert images[1].to_s.include? 'https://www.demo.com/image1.jpg'
+        assert images[2].to_s.include? 'https://www.demo.com/image0.jpg'
+      end
+    end
+  end
 end

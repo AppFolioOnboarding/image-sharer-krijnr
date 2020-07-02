@@ -1,0 +1,13 @@
+<div class="container">
+  <div class="row">
+    <h1>Listing Images</h1> 
+    <%= link_to "Add Image", new_image_path %> 
+  </div>  
+  <div class="js-image-list">
+    <% @images.each do |image| %>
+    <div class="row">
+      <%= image_tag(image.path, class:"width-400") %>    
+    </div> 
+    <% end %>
+  </div>
+</div>
