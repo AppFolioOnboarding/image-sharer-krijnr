@@ -8,12 +8,28 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test 'should get show with 2 tags' do
+    img = Image.create! path: 'https://www.demo.com/image-with-2-tags.jpg', tag_list: 'tag_1, tag_2'
+    get image_path(img)
+    assert_response :success
+    assert_select '.js-tag-list', 2
+  end
+
   test 'should get create' do
     assert_difference 'Image.count', 1 do
       post images_url, params: { image: { path: 'https://www.demo.com/image2.jpg' } }
     end
     assert_equal 'https://www.demo.com/image2.jpg', Image.last.path
     assert_redirected_to image_path(Image.last)
+  end
+
+  test 'should accept tags on image create' do
+    assert_difference 'Image.count', 1 do
+      post images_url, params: { image: { path: 'https://www.demo.com/image6.jpg', tag_list: 'tag_1 , tag_2' } }
+    end
+    assert_equal 'https://www.demo.com/image6.jpg', Image.last.path
+    assert_redirected_to image_path(Image.last)
+    assert_equal 2, Image.last.tags.count
   end
 
   test 'failed to create image' do
@@ -30,13 +46,14 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     assert_select 'h1', 'New Image'
   end
 
-  test 'should list all images' do
+  test 'should list all images, with tags' do
     Image.create! path: 'https://www.demo.com/image3.jpg'
+    Image.create! path: 'https://www.demo.com/image4.jpg', tag_list: 'tag_c, tag_d'
+    Image.create! path: 'https://www.demo.com/image5.jpg'
     get images_url
     assert_response :success
-    assert_select '.js-image-list' do
-      assert_select 'img', Image.count
-    end
+    assert_select '.js-image-list', 3
+    assert_select '.js-tag-list', 2
   end
 
   test 'images are sorted descending' do

@@ -7,6 +7,6 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 (0..19).each do |image_count|
   # rubocop:disable Layout/LineLength
-  Image.create! path: "https://via.placeholder.com/#{(image_count % 2).positive? ? 300 : 500}x600?text=Placeholder+Image+#{image_count}"
+  Image.create! path: "https://via.placeholder.com/#{(image_count % 2).positive? ? 300 : 500}x600?text=Placeholder+Image+#{image_count}", tag_list: "tag#{image_count}"
   # rubocop:enable Layout/LineLength
 end
