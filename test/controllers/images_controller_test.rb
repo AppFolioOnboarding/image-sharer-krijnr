@@ -71,4 +71,19 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
       end
     end
   end
+
+  test 'should list all images with specific tag only' do
+    Image.create! path: 'https://www.demo.com/image3.jpg', tag_list: 'tag_b, tag_d'
+    Image.create! path: 'https://www.demo.com/image4.jpg', tag_list: 'tag_c, tag_d'
+    Image.create! path: 'https://www.demo.com/image5.jpg', tag_list: 'tag_b'
+    get images_url, params: { tag_filter: 'tag_b' }
+    assert_response :success
+    assert_select '.js-image-list', 2
+    assert_select '.js-tag-list' do |tags|
+      assert tags[0].to_s.include? 'tag_b'
+      assert tags[1].to_s.include? 'tag_b'
+      assert tags[2].to_s.include? 'tag_d'
+      assert_equal images_path(tag_filter: 'tag_b'), tags[0][:href]
+    end
+  end
 end
