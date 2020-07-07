@@ -14,7 +14,12 @@ class ImagesController < ApplicationController
 
   def destroy
     @image = Image.find_by id: params[:id]
-    @image&.destroy
+    if @image.nil?
+      flash[:alert] = 'Image not found'
+    else
+      @image.destroy
+      flash[:notice] = 'Image deleted'
+    end
     redirect_to images_url
   end
 

@@ -3,6 +3,16 @@
     <h1>Listing Images</h1>
     <%= link_to "Add Image", new_image_path %>
   </div>
+  <% if flash[:notice] %>
+    <div class="alert alert-success">
+      <%= flash[:notice] %>
+    </div>
+  <% end %>
+  <% if flash[:alert] %>
+    <div class="alert alert-danger">
+      <%= flash[:alert] %>
+    </div>
+  <% end %>
   <div>
     <% @images.each do |image| %>
     <div class="row">

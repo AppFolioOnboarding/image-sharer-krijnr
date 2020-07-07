@@ -99,4 +99,13 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
       assert_redirected_to images_url
     end
   end
+
+  test 'should handle deleting non-existing image' do
+    assert_no_difference 'Image.count' do
+      delete image_path(-1)
+
+      assert_equal 'Image not found', flash[:alert]
+      assert_redirected_to images_url
+    end
+  end
 end
