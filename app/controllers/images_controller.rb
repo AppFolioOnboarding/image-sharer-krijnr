@@ -12,6 +12,12 @@ class ImagesController < ApplicationController
     end
   end
 
+  def destroy
+    @image = Image.find_by id: params[:id]
+    @image&.destroy
+    redirect_to images_url
+  end
+
   def new
     @image = Image.new # instance variable gets passed to template
   end

@@ -86,4 +86,17 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
       assert_equal images_path(tag_filter: 'tag_b'), tags[0][:href]
     end
   end
+
+  test 'should delete an image' do
+    Image.create! path: 'https://www.demo.com/image3.jpg'
+    @image = Image.create! path: 'https://www.demo.com/image4.jpg', tag_list: 'tag_c, tag_d'
+    Image.create! path: 'https://www.demo.com/image5.jpg'
+
+    assert_difference 'Image.count', -1 do
+      delete image_path(@image)
+
+      assert_equal 'Image deleted', flash[:notice]
+      assert_redirected_to images_url
+    end
+  end
 end

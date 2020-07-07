@@ -9,6 +9,7 @@
       <%= image_tag(image.path, class:"width-400 js-image-list") %>
       <% image.tags.each do |tag| %>
         <%= link_to tag.name, images_path(tag_filter:tag.name), class: "badge badge-secondary js-tag-list" %>
+        <%= link_to "Delete Image", image_path(id:tag.id), method: :delete, data: { confirm: 'Are you certain you want to delete this image?' } %>
       <% end%>
     </div>
     <% end %>
