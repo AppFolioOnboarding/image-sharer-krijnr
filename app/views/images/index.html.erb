@@ -8,7 +8,7 @@
     <div class="row">
       <%= image_tag(image.path, class:"width-400 js-image-list") %>
       <% image.tags.each do |tag| %>
-        <span class="badge badge-secondary js-tag-list"><%= tag.name %></span>
+        <%= link_to tag.name, images_path(tag_filter:tag.name), class: "badge badge-secondary js-tag-list" %>
       <% end%>
     </div>
     <% end %>
