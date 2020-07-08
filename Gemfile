@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '2.5.1'
+ruby '2.6.3'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.0'
@@ -16,13 +16,17 @@ gem 'uglifier', '>= 1.3.0'
 gem 'jquery-rails'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
+gem 'simple_form'
 
-gem 'webpacker', '~> 3.0'
+gem 'webpacker', '~> 4'
+
+gem 'acts-as-taggable-on', '~> 6.0'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
   # Use sqlite3 as the database for Active Record
+  gem 'rubocop-rails', require: false
   gem 'sqlite3'
 end
 

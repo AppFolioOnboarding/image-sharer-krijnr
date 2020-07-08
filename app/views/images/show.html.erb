@@ -1,0 +1,7 @@
+<h1>Image:</h1>
+<%= image_tag(@image.path) %>
+<h1>Tags:</h1>
+<% @image.tags.each do |tag| %>
+  <span class="badge badge-secondary js-tag-list"><%= tag.name %></span>
+<% end%>
+
