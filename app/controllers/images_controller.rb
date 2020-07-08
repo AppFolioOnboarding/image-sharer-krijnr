@@ -12,6 +12,17 @@ class ImagesController < ApplicationController
     end
   end
 
+  def destroy
+    @image = Image.find_by id: params[:id]
+    if @image.nil?
+      flash[:alert] = 'Image not found'
+    else
+      @image.destroy
+      flash[:notice] = 'Image deleted'
+    end
+    redirect_to images_url
+  end
+
   def new
     @image = Image.new # instance variable gets passed to template
   end

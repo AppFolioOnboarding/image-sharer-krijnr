@@ -50,7 +50,9 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     Image.create! path: 'https://www.demo.com/image3.jpg'
     Image.create! path: 'https://www.demo.com/image4.jpg', tag_list: 'tag_c, tag_d'
     Image.create! path: 'https://www.demo.com/image5.jpg'
+
     get images_url
+
     assert_response :success
     assert_select '.js-image-list', 3
     assert_select '.js-tag-list', 2
@@ -76,7 +78,9 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     Image.create! path: 'https://www.demo.com/image3.jpg', tag_list: 'tag_b, tag_d'
     Image.create! path: 'https://www.demo.com/image4.jpg', tag_list: 'tag_c, tag_d'
     Image.create! path: 'https://www.demo.com/image5.jpg', tag_list: 'tag_b'
+
     get images_url, params: { tag_filter: 'tag_b' }
+
     assert_response :success
     assert_select '.js-image-list', 2
     assert_select '.js-tag-list' do |tags|
@@ -84,6 +88,28 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
       assert tags[1].to_s.include? 'tag_b'
       assert tags[2].to_s.include? 'tag_d'
       assert_equal images_path(tag_filter: 'tag_b'), tags[0][:href]
+    end
+  end
+
+  test 'should delete an image' do
+    Image.create! path: 'https://www.demo.com/image3.jpg'
+    @image = Image.create! path: 'https://www.demo.com/image4.jpg', tag_list: 'tag_c, tag_d'
+    Image.create! path: 'https://www.demo.com/image5.jpg'
+
+    assert_difference 'Image.count', -1 do
+      delete image_path(@image)
+
+      assert_equal 'Image deleted', flash[:notice]
+      assert_redirected_to images_url
+    end
+  end
+
+  test 'should handle deleting non-existing image' do
+    assert_no_difference 'Image.count' do
+      delete image_path(-1)
+
+      assert_equal 'Image not found', flash[:alert]
+      assert_redirected_to images_url
     end
   end
 end

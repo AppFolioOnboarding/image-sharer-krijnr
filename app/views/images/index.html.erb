@@ -3,12 +3,23 @@
     <h1>Listing Images</h1>
     <%= link_to "Add Image", new_image_path %>
   </div>
+  <% if flash[:notice] %>
+    <div class="alert alert-success">
+      <%= flash[:notice] %>
+    </div>
+  <% end %>
+  <% if flash[:alert] %>
+    <div class="alert alert-danger">
+      <%= flash[:alert] %>
+    </div>
+  <% end %>
   <div>
     <% @images.each do |image| %>
     <div class="row">
       <%= image_tag(image.path, class:"width-400 js-image-list") %>
       <% image.tags.each do |tag| %>
         <%= link_to tag.name, images_path(tag_filter:tag.name), class: "badge badge-secondary js-tag-list" %>
+        <%= link_to "Delete Image", image_path(id:tag.id), method: :delete, data: { confirm: 'Are you certain you want to delete this image?' } %>
       <% end%>
     </div>
     <% end %>
